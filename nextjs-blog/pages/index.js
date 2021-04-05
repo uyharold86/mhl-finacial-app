@@ -11,7 +11,13 @@ export async function getStaticProps(){
       transactions: Papa.parse(fileContents, {
         header: true,
         delimeter: ",",
+        transform: (value, columnName) => {
+                    if (columnName === "Amount") {
+                        return parseFloat(value);
+                    }
 
+            return value;
+         }
       }).data
     } 
   }
@@ -85,8 +91,10 @@ export default function Home({transactions, rawFileContents}) {
 
         .header {
           width: 100%;
-          backgeound: #f7f7f7;
-
+          background: #f7f7f7;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
         }
 
         .header h1{
@@ -134,10 +142,10 @@ export default function Home({transactions, rawFileContents}) {
 function Transaction({date, amount, merchant}) {
   return (
     <>
-      <div className="ttransaction">
+      <div className="transaction">
         <div className="merchant">{merchant}</div>
         <div className="date">{date}</div>
-        <div className="amount">{amount.toFixed(2)}</div>
+        <div className="amount">{amount.toFixed(2)}</div> // toFixed will round the amount to 2 decimal places
       </div>
 
       <style jsx>{`
@@ -161,7 +169,7 @@ function Transaction({date, amount, merchant}) {
 
       .merchant {
         grid-area: merchant;
-        padding: 12px 6px 3px 16px;
+        padding: 12px 6px 3px 16px; // order of padding is clockwise
       }
 
       .date {
