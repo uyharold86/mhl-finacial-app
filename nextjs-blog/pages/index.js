@@ -37,7 +37,7 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding 0 10px;
+          padding 0;
           text-align: center; 
         }
 
@@ -52,6 +52,23 @@ export default function Home() {
         .header-title-yellow {
           color: #f8b92a;
         } 
+
+        .header {
+          width: 100%;
+          backgeound: #f7f7f7;
+
+        }
+
+        .header h1{
+          font-size: 40px;
+          display: flex;
+          flex-direction:: column;
+          margin: 20px 0 12px 0;
+          text-shadow: 0;
+          display: flex;
+          flex-direction: column;
+
+        }
 
         code {
           background: #fafafa;
