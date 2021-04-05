@@ -1,6 +1,24 @@
 import Head from 'next/head'
+import {promises as fs} from 'fs'
+import path form 'path'
+import Papa from 'papaparse'
 
-export default function Home() {
+export async function getStaticProps(){
+  const filePath = path.join(process.cwd(), 'data/transactions.csv');
+  const fileContents = await fs.readFile(filePath, 'utf8');
+  return {
+    props: {
+      transactions: Papa.parse(fileContents, {
+        header: true,
+        delimeter: ",",
+
+      }).data
+    } 
+  }
+}
+
+export default function Home({transactions, rawFileContents}) {
+    console.log(transactions, rawFileContents)
   return (
     <div className="container">
       <Head>
@@ -18,6 +36,16 @@ export default function Home() {
           <span className="header-title-blue">H</span> Finance
         </h1>
        </header>
+        <div className="transactions">
+          {transactions.map(transaction => (
+            <Transaction 
+              date = {transacition.Date} 
+              amount={transaction.Amount} 
+              merchant={transaction.Description} 
+              key={`${transaction.Date}-${transaction.Amount}-${Math.random()}`}
+            />
+           ))}
+        </div>
       </main>
 
       
@@ -93,6 +121,15 @@ export default function Home() {
           box-sizing: border-box;
         }
       `}</style>
+    </div>
+  )
+}
+
+function Transaction({date, amount, merchant}) {
+  return (
+    <div className="ttransaction">
+      <p></p>
+
     </div>
   )
 }
